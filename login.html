@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>로그인 - BuildFlow Legal</title>
+  <style>
+    :root {
+      --bg: #0b1220;
+      --text: #eef4ff;
+      --primary: #3b82f6;
+      --line: rgba(255,255,255,0.12);
+      --card: rgba(255,255,255,0.06);
+    }
+    body {
+      margin: 0;
+      font-family: sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      display: grid;
+      place-items: center;
+      min-height: 100vh;
+    }
+    .login-card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      padding: 40px;
+      border-radius: 20px;
+      text-align: center;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+      max-width: 400px;
+      width: 90%;
+    }
+    h1 { margin-bottom: 30px; }
+    .google-btn {
+      background: white;
+      color: #757575;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 4px;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      cursor: pointer;
+      width: 100%;
+      font-size: 16px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+    .google-btn:hover {
+      box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+    }
+    .google-icon {
+      width: 18px;
+      height: 18px;
+    }
+    .back-home {
+      display: block;
+      margin-top: 20px;
+      color: #b8c4d9;
+      text-decoration: none;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <div class="login-card">
+    <h1>로그인</h1>
+    <button class="google-btn">
+      <img class="google-icon" src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_Logo.svg" alt="Google logo">
+      Google 계정으로 로그인
+    </button>
+    <a href="index.html" class="back-home">← 홈으로 돌아가기</a>
+  </div>
+</body>
+</html>
