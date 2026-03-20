@@ -238,3 +238,29 @@
     min-height: 260px;
   }
 }
+.lookup-kakao-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 170px;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.lookup-key-input {
+  min-height: 50px;
+}
+
+.lookup-key-btn {
+  min-height: 50px;
+}
+
+.lookup-help-text {
+  margin: 10px 0 0;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+@media (max-width: 640px) {
+  .lookup-kakao-row {
+    grid-template-columns: 1fr;
+  }
+}

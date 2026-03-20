@@ -29,6 +29,9 @@ const summaryCoordinates = document.getElementById("summaryCoordinates");
 const summarySource = document.getElementById("summarySource");
 const lookupAiSummary = document.getElementById("lookupAiSummary");
 const lookupRawJson = document.getElementById("lookupRawJson");
+const kakaoMapKeyInput = document.getElementById("kakaoMapKeyInput");
+const saveKakaoKeyButton = document.getElementById("saveKakaoKeyButton");
+const kakaoKeyHelp = document.getElementById("kakaoKeyHelp");
 
 let mapProvider = "leaflet";
 let map;
@@ -242,6 +245,32 @@ function requestJsonp(url) {
     };
 
     document.body.appendChild(script);
+  });
+}
+
+function initKakaoKeyUi() {
+  if (!kakaoMapKeyInput || !saveKakaoKeyButton || !kakaoKeyHelp) {
+    return;
+  }
+
+  if (KAKAO_MAP_APPKEY) {
+    kakaoMapKeyInput.value = KAKAO_MAP_APPKEY;
+    kakaoKeyHelp.textContent = "카카오맵 키가 저장되어 있습니다. 현재 카카오 지도 사용을 시도합니다.";
+  } else {
+    kakaoKeyHelp.textContent = "카카오맵 JavaScript 키를 입력하면 주소검색과 지적편집도를 카카오 기준으로 표시합니다.";
+  }
+
+  saveKakaoKeyButton.addEventListener("click", () => {
+    const key = kakaoMapKeyInput.value.trim();
+    if (!key) {
+      window.localStorage.removeItem("KAKAO_MAP_APPKEY");
+      kakaoKeyHelp.textContent = "저장된 카카오맵 키를 삭제했습니다. 새로고침 후 기본 지도를 사용합니다.";
+      return;
+    }
+
+    window.localStorage.setItem("KAKAO_MAP_APPKEY", key);
+    kakaoKeyHelp.textContent = "카카오맵 키를 저장했습니다. 페이지를 새로고침해 카카오 지도를 적용합니다.";
+    window.setTimeout(() => window.location.reload(), 500);
   });
 }
 
@@ -532,5 +561,6 @@ async function initLookup() {
 
 window.addEventListener("load", async () => {
   initFaq();
+  initKakaoKeyUi();
   await initLookup();
 });

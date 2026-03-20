@@ -681,10 +681,7 @@
       <div class="container hero-grid">
         <div>
           <div class="eyebrow">건축법규 검토 · 협의이력 관리 · 팀 문서 자동화</div>
-          <h1>
-            건축 프로젝트의 <span class="highlight">법규 검토와 협업 흐름</span>을
-            하나의 플랫폼으로 정리합니다
-          </h1>
+          <h1>건축 법규 검토와 협업을 한곳에</h1>
           <p>
             복잡한 건축법규 검토, 담당자 협의 내용, 통화/회의 이력, 검토 결과 보고서,
             팀별 진행현황을 한 화면에서 관리하는 업무 플랫폼입니다.
@@ -710,6 +707,11 @@
               <button type="button" class="lookup-chip" data-sample-address="대구광역시 북구 산격동 123-45">대구 북구 산격동 123-45</button>
               <button type="button" class="lookup-chip" data-sample-address="부산광역시 해운대구 우동 1410-1">부산 해운대구 우동 1410-1</button>
             </div>
+            <div class="lookup-kakao-row">
+              <input id="kakaoMapKeyInput" class="lookup-input lookup-key-input" type="text" placeholder="카카오맵 JavaScript 키 입력" />
+              <button id="saveKakaoKeyButton" class="btn btn-ghost lookup-key-btn" type="button">카카오 지도 적용</button>
+            </div>
+            <p id="kakaoKeyHelp" class="lookup-help-text">카카오맵 키를 저장하면 주소검색과 지적편집도가 카카오 기준으로 동작합니다.</p>
             <div id="lookupError" class="lookup-error" hidden></div>
           </div>
 
