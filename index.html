@@ -707,7 +707,8 @@
               <button type="button" class="lookup-chip" data-sample-address="대구광역시 북구 산격동 123-45">대구 북구 산격동 123-45</button>
               <button type="button" class="lookup-chip" data-sample-address="부산광역시 해운대구 우동 1410-1">부산 해운대구 우동 1410-1</button>
             </div>
-            <p class="lookup-help-text">조회하면 카카오맵 검색결과로 바로 이동합니다.</p>
+            <p class="lookup-help-text">조회하면 카카오 지도에서 주소 위치를 찾고 마커로 표시합니다.</p>
+            <div id="map" style="width:500px;height:400px;"></div>
             <div id="lookupError" class="lookup-error" hidden></div>
           </div>
 
@@ -1202,7 +1203,7 @@
     </div>
   </footer>
 
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+  <script type="text/javascript" src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=a15d8c358fb707f89c5a774eb21a199c&libraries=services"></script>
   <script src="./main.js"></script>
 </body>
 </html>

@@ -1,9 +1,17 @@
-const KAKAO_SEARCH_BASE = "https://map.kakao.com/link/search/";
+const DEFAULT_CENTER = {
+  lat: 37.5665,
+  lng: 126.978,
+};
 
 const addressInput = document.getElementById("addressInput");
 const lookupButton = document.getElementById("lookupButton");
 const lookupError = document.getElementById("lookupError");
 const sampleButtons = document.querySelectorAll("[data-sample-address]");
+
+let map;
+let geocoder;
+let marker;
+let infoWindow;
 
 function initFaq() {
   const faqButtons = document.querySelectorAll(".faq-question");
@@ -32,7 +40,7 @@ function initFaq() {
 
 function setLoading(isLoading) {
   lookupButton.disabled = isLoading || !addressInput.value.trim();
-  lookupButton.textContent = isLoading ? "이동 중" : "조회";
+  lookupButton.textContent = isLoading ? "조회 중" : "조회";
 }
 
 function showError(message) {
@@ -45,7 +53,56 @@ function hideError() {
   lookupError.textContent = "";
 }
 
-function openKakaoSearch() {
+function initMap() {
+  if (!window.kakao?.maps) {
+    showError("카카오 지도를 불러오지 못했습니다.");
+    return;
+  }
+
+  const container = document.getElementById("map");
+  const options = {
+    center: new kakao.maps.LatLng(DEFAULT_CENTER.lat, DEFAULT_CENTER.lng),
+    level: 3,
+  };
+
+  map = new kakao.maps.Map(container, options);
+  geocoder = new kakao.maps.services.Geocoder();
+  marker = new kakao.maps.Marker({
+    position: options.center,
+  });
+  marker.setMap(map);
+  infoWindow = new kakao.maps.InfoWindow({
+    removable: false,
+  });
+}
+
+function moveToAddress(address) {
+  if (!geocoder) {
+    showError("주소검색 기능을 사용할 수 없습니다.");
+    return;
+  }
+
+  geocoder.addressSearch(address, (result, status) => {
+    if (status !== kakao.maps.services.Status.OK || !Array.isArray(result) || result.length === 0) {
+      showError("입력한 주소를 찾지 못했습니다.");
+      setLoading(false);
+      return;
+    }
+
+    hideError();
+
+    const first = result[0];
+    const position = new kakao.maps.LatLng(Number(first.y), Number(first.x));
+
+    map.setCenter(position);
+    marker.setPosition(position);
+    infoWindow.setContent(`<div style="padding:8px 10px; font-size:13px;">${first.address_name || address}</div>`);
+    infoWindow.open(map, marker);
+    setLoading(false);
+  });
+}
+
+function handleLookup() {
   const address = addressInput.value.trim();
 
   if (!address) {
@@ -55,13 +112,7 @@ function openKakaoSearch() {
 
   hideError();
   setLoading(true);
-
-  const url = `${KAKAO_SEARCH_BASE}${encodeURIComponent(address)}`;
-  window.open(url, "_blank", "noopener,noreferrer");
-
-  window.setTimeout(() => {
-    setLoading(false);
-  }, 300);
+  moveToAddress(address);
 }
 
 function initLookup() {
@@ -71,23 +122,24 @@ function initLookup() {
   addressInput.addEventListener("keydown", (event) => {
     if (event.key === "Enter") {
       event.preventDefault();
-      openKakaoSearch();
+      handleLookup();
     }
   });
 
-  lookupButton.addEventListener("click", openKakaoSearch);
+  lookupButton.addEventListener("click", handleLookup);
 
   sampleButtons.forEach((button) => {
     button.addEventListener("click", () => {
       addressInput.value = button.getAttribute("data-sample-address") || "";
       hideError();
       setLoading(false);
-      addressInput.focus();
+      handleLookup();
     });
   });
 }
 
 window.addEventListener("load", () => {
   initFaq();
+  initMap();
   initLookup();
 });
